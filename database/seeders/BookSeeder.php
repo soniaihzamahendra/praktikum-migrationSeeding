@@ -13,18 +13,23 @@ class BookSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        $faker = Faker::create('id_ID');
-        for ($i = 1; $i <= 10; $i++) {
-            DB::table('books')->insert([
-                'title' => $faker->sentence(3),
-                'author' => $faker->name,
-                'year' => $faker->year,
-                'publisher' => $faker->company,
-                'city' => $faker->city,
-                'bookshelf_id' => 1, 
-                'created_at' => now(),
-            ]);
-        }
+{
+    $faker = \Faker\Factory::create('id_ID');
+    
+    $categories = DB::table('categories')->get();
+
+    foreach ($categories as $cat) {
+        DB::table('books')->insert([
+            'id'           => $cat->id, 
+            'title'        => $faker->sentence(3),
+            'author'       => $faker->name,
+            'year'         => $faker->year,
+            'publisher'    => $faker->company,
+            'city'         => $faker->city,
+            'bookshelf_id' => 1, 
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ]);
     }
+}
 }
